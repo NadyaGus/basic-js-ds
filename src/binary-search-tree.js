@@ -17,9 +17,12 @@ class Node {
 
 */
 class BinarySearchTree {
+  constructor() {
+    this.rootNode = null;
+  }
 
   root() {
-    return this.node ? this.node : (this.node = null);
+    return this.rootNode;
   }
 
   add(data) {
@@ -32,11 +35,11 @@ class BinarySearchTree {
       } else if (node.data > data) {
         node.left = addData(node.left, data);
       } else if (node.data < data) {
-        node.rigth = addData(node.rigth, data);
+        node.right = addData(node.right, data);
       }
       return node;
     }
-    return (this.node = addData(this.node, data));
+    return this.rootNode = addData(this.rootNode, data);
   }
 
   has(data) {
@@ -49,10 +52,10 @@ class BinarySearchTree {
       } else if (node.data > data) {
         return isTreeHasValue(node.left, data);
       } else if (node.data < data) {
-        return isTreeHasValue(node.rigth, data);
+        return isTreeHasValue(node.right, data);
       }
     }
-    return isTreeHasValue(this.node, data);
+    return isTreeHasValue(this.rootNode, data);
   }
 
   find(data) {
@@ -64,11 +67,11 @@ class BinarySearchTree {
       } else if (node.data > data) {
         return searchData(node.left, data);
       } else {
-        return searchData(node.rigth, data);
+        return searchData(node.right, data);
       }
     }
 
-    return searchData(this.node, data);
+    return searchData(this.rootNode, data);
   }
 
   remove(data) {
@@ -79,39 +82,39 @@ class BinarySearchTree {
         node.left = remove(node.left, data);
         return node;
       } else if (node.data < data) {
-        node.rigth = remove(node.rigth, data);
+        node.right = remove(node.right, data);
         return node;
       } else {
-        if (!node.rigth && !node.left) {
+        if (!node.right && !node.left) {
           return null;
         }
       }
 
       if (!node.left) {
-        node = node.rigth;
+        node = node.right;
         return node;
-      } else if (!node.rigth) {
+      } else if (!node.right) {
         node = node.left;
         return node;
       }
 
-      let minRigthValue = node.rigth;
+      let minRightValue = node.right;
 
-      while (minRigthValue.left) {
-        minRigthValue = minRigthValue.left;
+      while (minRightValue.left) {
+        minRightValue = minRightValue.left;
       }
 
-      node.data = minRigthValue.data;
-      node.rigth = remove(node.rigth, minRigthValue.data);
+      node.data = minRightValue.data;
+      node.right = remove(node.right, minRightValue.data);
       return node;
     }
-    return remove(this.node, data);
+    return remove(this.rootNode, data);
   }
 
   min() {
     let node;
 
-    this.node ? (node = this.node) : null;
+    this.rootNode ? node = this.rootNode : null;
     while (node.left) {
       node = node.left;
     }
@@ -122,9 +125,9 @@ class BinarySearchTree {
   max() {
     let node;
 
-    this.node ? (node = this.node) : null;
-    while (node.rigth) {
-      node = node.rigth;
+    this.rootNode ? node = this.rootNode : null;
+    while (node.right) {
+      node = node.right;
     }
 
     return node.data;
