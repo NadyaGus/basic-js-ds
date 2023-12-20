@@ -30,16 +30,15 @@ class BinarySearchTree {
       if (!node) {
         node = new Node(data);
       }
-      if (node.data === data) {
-        node = node;
-      } else if (node.data > data) {
+
+      if (node.data > data) {
         node.left = addData(node.left, data);
       } else if (node.data < data) {
         node.right = addData(node.right, data);
       }
       return node;
     }
-    return this.rootNode = addData(this.rootNode, data);
+    return (this.rootNode = addData(this.rootNode, data));
   }
 
   has(data) {
@@ -55,6 +54,7 @@ class BinarySearchTree {
         return isTreeHasValue(node.right, data);
       }
     }
+
     return isTreeHasValue(this.rootNode, data);
   }
 
@@ -75,6 +75,8 @@ class BinarySearchTree {
   }
 
   remove(data) {
+    this.rootNode = remove(this.rootNode, data);
+
     function remove(node, data) {
       if (!node) {
         node = null;
@@ -84,18 +86,16 @@ class BinarySearchTree {
       } else if (node.data < data) {
         node.right = remove(node.right, data);
         return node;
-      } else {
-        if (!node.right && !node.left) {
-          return null;
-        }
       }
 
-      if (!node.left) {
-        node = node.right;
-        return node;
-      } else if (!node.right) {
-        node = node.left;
-        return node;
+      if (!node.right && !node.left) {
+        return null;
+      } else {
+        if (!node.left) {
+          return node.right;
+        } else if (!node.right) {
+          return node.left;
+        }
       }
 
       let minRightValue = node.right;
@@ -108,13 +108,14 @@ class BinarySearchTree {
       node.right = remove(node.right, minRightValue.data);
       return node;
     }
-    return remove(this.rootNode, data);
+
+    return this.rootNode;
   }
 
   min() {
     let node;
 
-    this.rootNode ? node = this.rootNode : null;
+    this.rootNode ? (node = this.rootNode) : null;
     while (node.left) {
       node = node.left;
     }
@@ -125,7 +126,7 @@ class BinarySearchTree {
   max() {
     let node;
 
-    this.rootNode ? node = this.rootNode : null;
+    this.rootNode ? (node = this.rootNode) : null;
     while (node.right) {
       node = node.right;
     }
